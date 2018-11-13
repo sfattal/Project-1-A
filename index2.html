@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Project 1-A</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<!-- Linking CSS -->
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<!-- Linking jQuery -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<!-- Linking Google Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Montserrat|Roboto+Slab|Yellowtail' rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+        
+
+<div class="container">
+
+		<div class="jumbotron bg-primary text-center">
+				<h1>Tell Us a Bit More</h1>
+			</div>
+
+
+			<div class="col-sm-6">
+					<div class="well text-center">
+						
+						<!-- Entry Form -->
+							 <form action="/action_page.php">
+								<label for="gender">Gender</label><br>
+								<label for="male">Male</label>
+								<input type="radio" name="gender" id="male" value="male">
+								<label for="female">Female</label>
+								<input type="radio" name="gender" id="female" value="female"><br><br>
+								</form>
+							<div class="form-group">
+								<label for="age-input">Age</label>
+								<input class="form-control" id="age-input" placeholder="" type="text">
+							</div>
+							<div class="form-group">
+								<label for="zipcode-input">Zip Code</label>
+								<input class="form-control" id="zipcode-input" placeholder="" type="text">
+							</div>
+							<button class="btn btn-primary float-right" id="add-userdata-btn">Submit</button>
+						</form> 
+					</div>
+				</div>
+
+				<br><br>
+	
+			<div class="row text-center">		
+
+				<div class="col-sm-6">
+						<div class="well text-center">
+							<!-- Entry Form -->
+							<form>
+								<div class="form-group">
+									<label for="followup1-input">Follow-Up Question</label>
+									<input class="form-control" id="followup1-input" placeholder="" type="text">
+								</div>
+								<button class="btn btn-primary float-right" id="answ1-btn">Submit</button>
+								<div class="form-group">
+									<label for="followup2-input">Follow-Up Question</label>
+									<input class="form-control" id="followup2-input" placeholder="" type="text">
+								</div>
+								<button class="btn btn-primary float-right" id="answ2-btn">Submit</button>
+								</form> 
+						</div>
+					</div>
+					<br><br>
+	
+			<div class="row text-center">
+			
+				<div class="col-sm-6">
+				<a class="btn btn-primary" href=index3.html>> Get Diagnosed</a>
+				<br>
+			</div>
+
+					 
+
+	
+
+
+
+</div>
+
+<!-- Linking our JavaScript file -->
+<script type="text/javascript" src="app.js"></script>
+</body>
+</html>
