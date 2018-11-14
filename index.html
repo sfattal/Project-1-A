@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Project 1-A</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<!-- Linking CSS -->
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<!-- Linking jQuery -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<!-- Linking Google Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Montserrat|Roboto+Slab|Yellowtail' rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+        
+
+<div class="container">
+
+          
+
+	<div class="jumbotron bg-primary text-center">
+		<h1>What's Wrong With Me?</h1>
+	</div>
+
+	<div class="row">
+	
+		<div class="col-sm-6">
+			<div class="panel panel-primary">
+				<div class="panel-heading">How It Works</div>
+				<div class="panel-body">
+					<p>
+						When you're not feeling well, have injured yourself and don't know where to go to get treatment, type your symptoms in the form to the right, and get recommendations for where to seek treatment .
+					</p> 
+					<p>
+						We'll search your symptoms, let you know potential diagnoses, and provide a list of health care providers in your area.
+					
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-6">
+			<div class="well text-center">
+				<div>
+					<img class="img-responsive" src="doctor.jpg">
+			
+				</div>
+				<!-- Entry Form -->
+				<form>
+					<div class="form-group">
+					  <label for="symptom1-input">Symptom</label>
+					  <input class="form-control" id="symptom1-input" placeholder="chills" type="text">
+					</div>
+					<div class="form-group">
+					  <label for="symptom2-input">Symptom</label>
+					  <input class="form-control" id="symptom2-input" placeholder="fever" type="text">
+					</div>
+					<div class="form-group">
+					  <label for="symptom3-input">Symptom</label>
+					  <input class="form-control" id="symptom3-input" placeholder="achiness" type="text">
+					</div>
+					<button class="btn btn-primary float-right" id="add-symptom-btn">Submit</button>
+					<button class="btn btn-primary float-right" id="clear-symptom-btn">Clear</button>
+				  </form> 
+			</div>
+		</div>
+
+	</div>
+
+	<br><br>
+	
+	<div class="row text-center">
+			
+		<div class="col-sm-6">
+			<a class="btn btn-primary" href=index2.html>> Next</a>
+			<br>
+		</div>
+
+	</div>
+		
+	<br><br>	
+
+    <div class="row text-center">
+			
+		<div class="col-sm-6">
+			<button class="btn" id="infoBtn">?</button>
+			<br>
+		</div>
+
+	</div>
+
+	<br><br><br><br>
+
+</div>
+
+<!-- Linking our JavaScript file -->
+<script type="text/javascript" src="app.js"></script>
+</body>
+</html>
