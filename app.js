@@ -3,6 +3,7 @@
 $("#add-symptom-btn").on("click", function(event) {
     event.preventDefault();
   
+lennox-branch
     // Grabs user input
     var symp1 = $("#symptom1-input").val().trim();
     var symp2 = $("#symptom2-input").val().trim();
@@ -178,5 +179,9 @@ function addSymptom(ptAnswer){
     };
 };
  
+=======
+    $(".form-group").append("<input/>")
+})
+master
 
 
