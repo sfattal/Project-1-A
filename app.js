@@ -58,8 +58,7 @@ $("#add-userdata-btn").on("click", function(){
 
     symptoms["text"] = sessionStorage.getItem("newIssue");
     console.log(symptoms["text"]);
-
-    console.log(symptoms);
+    console.log("this is the symptom object", symptoms);
 
     ptAge = $("#age-input").val().trim();
     ptData['age'] = ptAge;
@@ -83,7 +82,7 @@ $("#add-userdata-btn").on("click", function(){
 
             // Turns string into object to select from
             formResults = JSON.parse(results);
-            console.log(formResults);
+            console.log("triage results", formResults);
 
             // Loops through array of possible symptoms and adds them to evidence
             for (var i = 0; i < formResults.mentions.length; i++){
@@ -94,7 +93,12 @@ $("#add-userdata-btn").on("click", function(){
                    };
                    ptData["evidence"].push(newEvidence); 
                    console.log(ptData);
-                }
+                } else {
+                    var newEvidence = {
+                        "id": formResults.mentions[i].id,
+                        "choice_id": "absent"
+                    };
+                }   ptData["evidence"].push(newEvidence);
             };
             triage(); 
         }
@@ -105,6 +109,8 @@ $("#add-userdata-btn").on("click", function(){
 
 function triage(){
     if (questionCount < 5){
+
+        console.log("this is pt data", ptData);
         // Searches API for relation between symptoms
         $.ajax({
             url: 'https://api.infermedica.com/v2/diagnosis',
@@ -131,11 +137,12 @@ function triage(){
 
                 // Writes follow up question to screen
                 $("#followup1-input").text(formResults.question.text);
-                console.log(formResults.question.items[0].id);
+                console.log("this is the question", formResults.question.text);
+                console.log("this is the id", formResults.question.items[0].id);
 
                 // Confirms that result is a string
                 console.log(typeof formResults.question.items[0].id);
-                console.log(data['evidence']);
+                console.log(ptData['evidence']);
 
                 // Adds Yes or No buttons beneath question
                 var yesButton = $("<button>");
@@ -150,10 +157,16 @@ function triage(){
                 $("#followup1-input").append(noButton);
 
                 $("#yesButton").on("click", function(){
+
+                    event.preventDefault();
+
                     ptAnswer = $(this).attr("data-name");
                 });
 
                 $("#noButton").on("click", function(){
+
+                    event.preventDefault();
+                    
                     ptAnswer = $(this).attr("data-name");
                 });
                 addSymptom();
@@ -182,21 +195,14 @@ function addSymptom(ptAnswer){
            "id": newSymptom,
            "choice_id": "present"
         };
-        data["evidence"].push(newEvidence);
+        ptData["evidence"].push(newEvidence);
         triage();
     } else if (ptAnswer === 'no'){
         var newEvidence = {
             "id": newSymptom,
             "choice_id": "absent"
         };
-        data["evidence"].push(newEvidence);
-        triage();
-    } else {
-        var newEvidence = {
-            "id": newSymptom,
-            "choice_id": "unknown"
-        };
-        data["evidence"].push(newEvidence);
+        ptData["evidence"].push(newEvidence);
         triage();
     };
 };
