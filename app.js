@@ -161,23 +161,33 @@ function triage(){
                     event.preventDefault();
 
                     ptAnswer = $(this).attr("data-name");
+                    addSymptom();
+                    console.log("this is the first pt answer", ptAnswer);
                 });
 
                 $("#noButton").on("click", function(){
 
                     event.preventDefault();
-                    
+
                     ptAnswer = $(this).attr("data-name");
+                    addSymptom();
+                    console.log(ptAnswer);
                 });
-                addSymptom();
+                
             }
         });
     } else {
+
+        // Save final diagnosis
+        diagnosis = formResults.conditions[0]["name"];
+        console.log("this is the final diagnosis", diagnosis);
+        sessionStorage.setItem("diagnosis", diagnosis);
+
         // Prompt user to view third page
         $("#followup1-input").text("Click 'Get Diagnosed' to view your assessment");
 
         // Displays final diagnosis on screen
-        diagnosis = formResults.conditions[0]["name"];
+        
         var diagnosisDisplay = $("<div>");
         diagnosisDisplay.attr("id", "diagnosis");
         diagnosisDisplay.text("Well...it looks you might have: " + diagnosis);
@@ -187,15 +197,17 @@ function triage(){
 };
 
 // Adds new symptom to data array depending on pt answer
-function addSymptom(ptAnswer){
-    if (ptAnswer === 'yes'){
+function addSymptom(){
+    console.log("This is the pt answer", ptAnswer);
+    if (ptAnswer === "yes"){
         var newSymptom = formResults.question.items[0].id
-        symptoms.push(newSymptom);
+        console.log("this is the new symptom", newSymptom);
         var newEvidence = {
            "id": newSymptom,
            "choice_id": "present"
         };
         ptData["evidence"].push(newEvidence);
+        console.log("this is the new evidence", newEvidence)
         triage();
     } else if (ptAnswer === 'no'){
         var newEvidence = {
