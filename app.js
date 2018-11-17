@@ -182,17 +182,10 @@ function triage(){
         diagnosis = formResults.conditions[0]["name"];
         console.log("this is the final diagnosis", diagnosis);
         sessionStorage.setItem("diagnosis", diagnosis);
+        console.log(sessionStorage.getItem("diagnosis"));
 
         // Prompt user to view third page
         $("#followup1-input").text("Click 'Get Diagnosed' to view your assessment");
-
-        // Displays final diagnosis on screen
-        
-        var diagnosisDisplay = $("<div>");
-        diagnosisDisplay.attr("id", "diagnosis");
-        diagnosisDisplay.text("Well...it looks you might have: " + diagnosis);
-        $("#displayDiagnosis").append(diagnosisDisplay); // Need name of display div
-
     }
 };
 
@@ -219,5 +212,7 @@ function addSymptom(){
     };
 };
 
-
+$(document).ready(function(){
+    $("#displayDiagnosis").text("Well...it looks you might have: " + sessionStorage.getItem("diagnosis"));
+});
 
