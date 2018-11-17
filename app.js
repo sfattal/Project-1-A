@@ -6,7 +6,9 @@ var formResults;
 var ptAnswer;
 var ptGender;
 var ptAge;
+var ptZip;
 var questionCount = 0;
+var newIssue;
 var symptoms = {
     "text": null
 }; 
@@ -19,24 +21,44 @@ var ptData = {
     }
 };
 
-// Captures user age
-$("#age-input").val().trim() = ptAge;
-ptData['age'] = ptAge;
+// Processes user input of symptoms
+$("#enterSymptoms").on("click", function(){
+
+    event.preventDefault();
+
+    newIssue = $("#userSymptoms").val().trim();
+    console.log(newIssue);
+    symptoms["text"] = newIssue;
+    console.log(symptoms["text"]);
+});
 
 // Assigns gender on patient entry
 $("#female").on("click", function(){
+
+    event.preventDefault();
+
     ptGender = "female";
     ptData['sex'] = ptGender;
 });
 
 $("#male").on("click", function(){
+
+    event.preventDefault();
+
     ptGender = "male";
     ptData['sex'] = ptGender;
 });
 
-// Processes user input of symptoms
-$("#enterSymptoms").on("click", function(){
-    symptoms["text"] = $("#userSymptoms").val().trim();
+// Captures user age
+$("#add-userdata-btn").on("click", function(){
+
+    event.preventDefault();
+
+    console.log(symptoms);
+
+    ptAge = $("#age-input").val().trim();
+    ptData['age'] = ptAge;
+    ptZip = $("#zipcode-input").val().trim();
 
     $.ajax({
         url: 'https://api.infermedica.com/v2/parse',
@@ -71,7 +93,9 @@ $("#enterSymptoms").on("click", function(){
             triage(); 
         }
     });
-});
+})
+
+
 
 function triage(){
     if (questionCount < 5){
