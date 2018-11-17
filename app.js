@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 // 2. Button for adding symptoms
 $("#add-symptom-btn").on("click", function(event) {
@@ -13,13 +14,19 @@ lennox-branch
    
  // Lennox code below!
  // Initialize variables
+=======
+// Lennox code below!
+// Initialize variables
+>>>>>>> 0ba6b60fc9326fb6aa6e82c4692a6f00d5f60d1a
 var diagnosis;
 var results;
 var formResults;
 var ptAnswer;
 var ptGender;
 var ptAge;
+var ptZip;
 var questionCount = 0;
+var newIssue;
 var symptoms = {
     "text": null
 }; 
@@ -32,24 +39,49 @@ var ptData = {
     }
 };
 
-// Captures user age
-$("#age-input").val().trim() = ptAge;
-ptData['age'] = ptAge;
+// Processes user input of symptoms
+$("#enterSymptoms").on("click", function(){
+
+    event.preventDefault();
+
+    newIssue = $("#userSymptoms").val().trim();
+    console.log(newIssue);
+
+    sessionStorage.clear();
+    sessionStorage.setItem("newIssue", newIssue);
+    
+});
 
 // Assigns gender on patient entry
 $("#female").on("click", function(){
+
+    event.preventDefault();
+
     ptGender = "female";
     ptData['sex'] = ptGender;
 });
 
 $("#male").on("click", function(){
+
+    event.preventDefault();
+
     ptGender = "male";
     ptData['sex'] = ptGender;
 });
 
-// Processes user input of symptoms
-$("#enterSymptoms").on("click", function(){
-    symptoms["text"] = $("#userSymptoms").val().trim();
+// Captures user age
+$("#add-userdata-btn").on("click", function(){
+
+    event.preventDefault();
+
+    symptoms["text"] = sessionStorage.getItem("newIssue");
+    console.log(symptoms["text"]);
+    console.log("this is the symptom object", symptoms);
+
+    ptAge = $("#age-input").val().trim();
+    ptData['age'] = ptAge;
+    ptZip = $("#zipcode-input").val().trim();
+    sessionStorage.setItem("ptZip", ptZip);
 
     $.ajax({
         url: 'https://api.infermedica.com/v2/parse',
@@ -68,7 +100,7 @@ $("#enterSymptoms").on("click", function(){
 
             // Turns string into object to select from
             formResults = JSON.parse(results);
-            console.log(JSON.parse(results));
+            console.log("triage results", formResults);
 
             // Loops through array of possible symptoms and adds them to evidence
             for (var i = 0; i < formResults.mentions.length; i++){
@@ -79,15 +111,24 @@ $("#enterSymptoms").on("click", function(){
                    };
                    ptData["evidence"].push(newEvidence); 
                    console.log(ptData);
-                }
+                } else {
+                    var newEvidence = {
+                        "id": formResults.mentions[i].id,
+                        "choice_id": "absent"
+                    };
+                }   ptData["evidence"].push(newEvidence);
             };
             triage(); 
         }
     });
-});
+})
+
+
 
 function triage(){
     if (questionCount < 5){
+
+        console.log("this is pt data", ptData);
         // Searches API for relation between symptoms
         $.ajax({
             url: 'https://api.infermedica.com/v2/diagnosis',
@@ -106,18 +147,20 @@ function triage(){
 
                 // Turns result into string
                 results = JSON.stringify(answer);
+                console.log("string results", results);
 
                 // Turns string into object to select from
                 formResults = JSON.parse(results);
-                console.log(JSON.parse(results));
+                console.log("object results", formResults);
 
                 // Writes follow up question to screen
-                $("#").text(formResults.question.text);
-                console.log(formResults.question.items[0].id);
+                $("#followup1-input").text(formResults.question.text);
+                console.log("this is the question", formResults.question.text);
+                console.log("this is the id", formResults.question.items[0].id);
 
                 // Confirms that result is a string
                 console.log(typeof formResults.question.items[0].id);
-                console.log(data['evidence']);
+                console.log(ptData['evidence']);
 
                 // Adds Yes or No buttons beneath question
                 var yesButton = $("<button>");
@@ -128,65 +171,72 @@ function triage(){
                 noButton.text("No");
                 noButton.attr("id", "noButton");
                 noButton.attr("data-name", "no");
-                $("#").append(yesButton); // Need to add yes or no buttons to correct div
-                $("#").append(noButton);
+                $("#followup1-input").append(yesButton); 
+                $("#followup1-input").append(noButton);
 
                 $("#yesButton").on("click", function(){
+
+                    event.preventDefault();
+
                     ptAnswer = $(this).attr("data-name");
+                    addSymptom();
+                    console.log("this is the first pt answer", ptAnswer);
                 });
 
                 $("#noButton").on("click", function(){
+
+                    event.preventDefault();
+
                     ptAnswer = $(this).attr("data-name");
+                    addSymptom();
+                    console.log(ptAnswer);
                 });
-                addSymptom();
+                
             }
         });
     } else {
 
-        // Displays final diagnosis on screen
+        // Save final diagnosis
         diagnosis = formResults.conditions[0]["name"];
-        var diagnosisDisplay = $("<div>");
-        diagnosisDisplay.attr("id", "diagnosis");
-        diagnosisDisplay.text("Well...it looks you might have: " + diagnosis);
-        $("#").append(diagnosisDisplay); // Need name of display div
+        console.log("this is the final diagnosis", diagnosis);
+        sessionStorage.setItem("diagnosis", diagnosis);
+        console.log(sessionStorage.getItem("diagnosis"));
 
+        // Prompt user to view third page
+        $("#followup1-input").text("Click 'Get Diagnosed' to view your assessment");
     }
 };
 
 // Adds new symptom to data array depending on pt answer
-function addSymptom(ptAnswer){
-    if (ptAnswer === 'yes'){
+function addSymptom(){
+    console.log("This is the pt answer", ptAnswer);
+    if (ptAnswer === "yes"){
         var newSymptom = formResults.question.items[0].id
-        symptoms.push(newSymptom);
+        console.log("this is the new symptom", newSymptom);
         var newEvidence = {
            "id": newSymptom,
            "choice_id": "present"
         };
-        data["evidence"].push(newEvidence);
+        ptData["evidence"].push(newEvidence);
+        console.log("this is the new evidence", newEvidence)
         triage();
     } else if (ptAnswer === 'no'){
         var newEvidence = {
             "id": newSymptom,
             "choice_id": "absent"
         };
-        data["evidence"].push(newEvidence);
-        triage();
-    } else {
-        var newEvidence = {
-            "id": newSymptom,
-            "choice_id": "unknown"
-        };
-        data["evidence"].push(newEvidence);
+        ptData["evidence"].push(newEvidence);
         triage();
     };
 };
- 
-=======
-    $(".form-group").append("<input/>")
-})
-master
 
+<<<<<<< HEAD
 >>>>>>> 6fb99b381bb7c60ea1fe147945fdc645dc3ba056
+=======
+$(document).ready(function(){
+    $("#displayDiagnosis").text("Well...it looks you might have: " + sessionStorage.getItem("diagnosis"));
+});
+>>>>>>> 0ba6b60fc9326fb6aa6e82c4692a6f00d5f60d1a
 
     $(".form-group").append("<input/>")
     

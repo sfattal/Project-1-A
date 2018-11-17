@@ -25,7 +25,7 @@
 
 	<div class="row">
 	
-		<div class="col-sm-6">
+		<div class="col-lg-6">
 			<div class="panel panel-primary">
 				<div class="panel-heading">How It Works</div>
 				<div class="panel-body">
@@ -39,18 +39,44 @@
 			</div>
 		</div>
 
-		<div class="col-sm-6">
+		<div class="col-lg-6">
 			<div class="well text-center">
-				<div>
+				<div class="row">
+					<div class="col-lg-6">
+						<img class="img-responsive" src="doctor.jpg">
+					</div>
+					<div class="col-lg-6">
+						<!-- bubble -->
+
+              <div id="speech-bubble-one" class="speech-bubble">
+                <p>speech one!</p>
+                </div>
+              </div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-6">
+							<div id="speech-bubble-two" class="speech-bubble">
+									<p><strong>SPEECH TWO</strong></p>
+									<p>This is a simple CSS speech bubble.</p>
+								</div>
+								
+						<!-- bubble -->
+					</div>
+					<div class="col-lg-6">
+						<img class="img-responsive" src="patient.jpg">
+					</div>
+				</div>
+				<!-- <div>
 					<img class="img-responsive" src="doctor.jpg">
 			
-				</div>
+				</div> -->
 				<!-- Entry Form -->
 				<form>
 					<div class="form-group">
-					  <label for="symptom1-input">Symptom</label>
-					  <input class="form-control" id="userSymptoms" placeholder="I feel stomach pain but no coughing today" type="text">
-					
+					  <label for="symptom1-input">Tell me what's wrong with you:</label>
+					  <input class="form-control" id="userSymptoms" placeholder="I feel stomach pain but no coughing today" type="textbox">
+					<span contenteditable="true"></span>
 					</div>
 					<button class="btn btn-primary float-right" id="enterSymptoms">Submit</button>
 					<button class="btn btn-primary float-right" id="clear-symptom-btn">Clear</button>
@@ -64,7 +90,7 @@
 	
 	<div class="row text-center">
 			
-		<div class="col-sm-6 col-sm-offset-2">
+		<div class="col-lg-6 col-lg-offset-2">
 			<a class="btn btn-primary" href=index2.html>> Next</a>
 			<br>
 		</div>
@@ -75,7 +101,7 @@
 
     <div class="row text-center">
 			
-		<div class="col-sm-6 col-sm-offset-2">
+		<div class="col-lg-6 col-lg-offset-2">
 			<button class="btn" id="infoBtn">?</button>
 			<br>
 		</div>
