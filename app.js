@@ -46,8 +46,8 @@ $("#male").on("click", function(){
 });
 
 // Processes user input of symptoms
-$("#").on("click", function(){
-    symptoms["text"] = $("#").val().trim();
+$("#enterSymptoms").on("click", function(){
+    symptoms["text"] = $("#userSymptoms").val().trim();
 
     $.ajax({
         url: 'https://api.infermedica.com/v2/parse',
