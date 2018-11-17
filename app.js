@@ -1,16 +1,5 @@
-
-// 2. Button for adding symptoms
-$("#add-symptom-btn").on("click", function(event) {
-    event.preventDefault();
-  
-lennox-branch
-    // Grabs user input
-    var symp1 = $("#symptom1-input").val().trim();
-    var symp2 = $("#symptom2-input").val().trim();
-    var symp3 = $("#symptom3-input").val().trim();});
-   
- // Lennox code below!
- // Initialize variables
+// Lennox code below!
+// Initialize variables
 var diagnosis;
 var results;
 var formResults;
@@ -110,7 +99,7 @@ function triage(){
                 console.log(JSON.parse(results));
 
                 // Writes follow up question to screen
-                $("#").text(formResults.question.text);
+                $("#followup1-input").text(formResults.question.text);
                 console.log(formResults.question.items[0].id);
 
                 // Confirms that result is a string
@@ -126,8 +115,8 @@ function triage(){
                 noButton.text("No");
                 noButton.attr("id", "noButton");
                 noButton.attr("data-name", "no");
-                $("#").append(yesButton); // Need to add yes or no buttons to correct div
-                $("#").append(noButton);
+                $("#followup1-input").append(yesButton); 
+                $("#followup1-input").append(noButton);
 
                 $("#yesButton").on("click", function(){
                     ptAnswer = $(this).attr("data-name");
@@ -140,13 +129,15 @@ function triage(){
             }
         });
     } else {
+        // Prompt user to view third page
+        $("#followup1-input").text("Click 'Get Diagnosed' to view your assessment");
 
         // Displays final diagnosis on screen
         diagnosis = formResults.conditions[0]["name"];
         var diagnosisDisplay = $("<div>");
         diagnosisDisplay.attr("id", "diagnosis");
         diagnosisDisplay.text("Well...it looks you might have: " + diagnosis);
-        $("#").append(diagnosisDisplay); // Need name of display div
+        $("#displayDiagnosis").append(diagnosisDisplay); // Need name of display div
 
     }
 };
@@ -178,10 +169,6 @@ function addSymptom(ptAnswer){
         triage();
     };
 };
- 
-=======
-    $(".form-group").append("<input/>")
-})
-master
+
 
 
