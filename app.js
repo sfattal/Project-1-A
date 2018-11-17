@@ -28,8 +28,10 @@ $("#enterSymptoms").on("click", function(){
 
     newIssue = $("#userSymptoms").val().trim();
     console.log(newIssue);
-    symptoms["text"] = newIssue;
-    console.log(symptoms["text"]);
+
+    sessionStorage.clear();
+    sessionStorage.setItem("newIssue", newIssue);
+    
 });
 
 // Assigns gender on patient entry
@@ -54,11 +56,15 @@ $("#add-userdata-btn").on("click", function(){
 
     event.preventDefault();
 
+    symptoms["text"] = sessionStorage.getItem("newIssue");
+    console.log(symptoms["text"]);
+
     console.log(symptoms);
 
     ptAge = $("#age-input").val().trim();
     ptData['age'] = ptAge;
     ptZip = $("#zipcode-input").val().trim();
+    sessionStorage.setItem("ptZip", ptZip);
 
     $.ajax({
         url: 'https://api.infermedica.com/v2/parse',
@@ -77,7 +83,7 @@ $("#add-userdata-btn").on("click", function(){
 
             // Turns string into object to select from
             formResults = JSON.parse(results);
-            console.log(JSON.parse(results));
+            console.log(formResults);
 
             // Loops through array of possible symptoms and adds them to evidence
             for (var i = 0; i < formResults.mentions.length; i++){
@@ -117,10 +123,11 @@ function triage(){
 
                 // Turns result into string
                 results = JSON.stringify(answer);
+                console.log("string results", results);
 
                 // Turns string into object to select from
                 formResults = JSON.parse(results);
-                console.log(JSON.parse(results));
+                console.log("object results", formResults);
 
                 // Writes follow up question to screen
                 $("#followup1-input").text(formResults.question.text);
