@@ -58,8 +58,7 @@ $("#add-userdata-btn").on("click", function(){
 
     symptoms["text"] = sessionStorage.getItem("newIssue");
     console.log(symptoms["text"]);
-
-    console.log(symptoms);
+    console.log("this is the symptom object", symptoms);
 
     ptAge = $("#age-input").val().trim();
     ptData['age'] = ptAge;
@@ -83,7 +82,7 @@ $("#add-userdata-btn").on("click", function(){
 
             // Turns string into object to select from
             formResults = JSON.parse(results);
-            console.log(formResults);
+            console.log("triage results", formResults);
 
             // Loops through array of possible symptoms and adds them to evidence
             for (var i = 0; i < formResults.mentions.length; i++){
@@ -94,7 +93,12 @@ $("#add-userdata-btn").on("click", function(){
                    };
                    ptData["evidence"].push(newEvidence); 
                    console.log(ptData);
-                }
+                } else {
+                    var newEvidence = {
+                        "id": formResults.mentions[i].id,
+                        "choice_id": "absent"
+                    };
+                }   ptData["evidence"].push(newEvidence);
             };
             triage(); 
         }
@@ -105,6 +109,8 @@ $("#add-userdata-btn").on("click", function(){
 
 function triage(){
     if (questionCount < 5){
+
+        console.log("this is pt data", ptData);
         // Searches API for relation between symptoms
         $.ajax({
             url: 'https://api.infermedica.com/v2/diagnosis',
@@ -131,11 +137,12 @@ function triage(){
 
                 // Writes follow up question to screen
                 $("#followup1-input").text(formResults.question.text);
-                console.log(formResults.question.items[0].id);
+                console.log("this is the question", formResults.question.text);
+                console.log("this is the id", formResults.question.items[0].id);
 
                 // Confirms that result is a string
                 console.log(typeof formResults.question.items[0].id);
-                console.log(data['evidence']);
+                console.log(ptData['evidence']);
 
                 // Adds Yes or No buttons beneath question
                 var yesButton = $("<button>");
@@ -150,56 +157,62 @@ function triage(){
                 $("#followup1-input").append(noButton);
 
                 $("#yesButton").on("click", function(){
+
+                    event.preventDefault();
+
                     ptAnswer = $(this).attr("data-name");
+                    addSymptom();
+                    console.log("this is the first pt answer", ptAnswer);
                 });
 
                 $("#noButton").on("click", function(){
+
+                    event.preventDefault();
+
                     ptAnswer = $(this).attr("data-name");
+                    addSymptom();
+                    console.log(ptAnswer);
                 });
-                addSymptom();
+                
             }
         });
     } else {
+
+        // Save final diagnosis
+        diagnosis = formResults.conditions[0]["name"];
+        console.log("this is the final diagnosis", diagnosis);
+        sessionStorage.setItem("diagnosis", diagnosis);
+        console.log(sessionStorage.getItem("diagnosis"));
+
         // Prompt user to view third page
         $("#followup1-input").text("Click 'Get Diagnosed' to view your assessment");
-
-        // Displays final diagnosis on screen
-        diagnosis = formResults.conditions[0]["name"];
-        var diagnosisDisplay = $("<div>");
-        diagnosisDisplay.attr("id", "diagnosis");
-        diagnosisDisplay.text("Well...it looks you might have: " + diagnosis);
-        $("#displayDiagnosis").append(diagnosisDisplay); // Need name of display div
-
     }
 };
 
 // Adds new symptom to data array depending on pt answer
-function addSymptom(ptAnswer){
-    if (ptAnswer === 'yes'){
+function addSymptom(){
+    console.log("This is the pt answer", ptAnswer);
+    if (ptAnswer === "yes"){
         var newSymptom = formResults.question.items[0].id
-        symptoms.push(newSymptom);
+        console.log("this is the new symptom", newSymptom);
         var newEvidence = {
            "id": newSymptom,
            "choice_id": "present"
         };
-        data["evidence"].push(newEvidence);
+        ptData["evidence"].push(newEvidence);
+        console.log("this is the new evidence", newEvidence)
         triage();
     } else if (ptAnswer === 'no'){
         var newEvidence = {
             "id": newSymptom,
             "choice_id": "absent"
         };
-        data["evidence"].push(newEvidence);
-        triage();
-    } else {
-        var newEvidence = {
-            "id": newSymptom,
-            "choice_id": "unknown"
-        };
-        data["evidence"].push(newEvidence);
+        ptData["evidence"].push(newEvidence);
         triage();
     };
 };
 
-
+$(document).ready(function(){
+    $("#displayDiagnosis").text("Well...it looks you might have: " + sessionStorage.getItem("diagnosis"));
+});
 
