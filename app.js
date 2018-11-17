@@ -1,23 +1,14 @@
-
-// 2. Button for adding symptoms
-$("#add-symptom-btn").on("click", function(event) {
-    event.preventDefault();
-  
-lennox-branch
-    // Grabs user input
-    var symp1 = $("#symptom1-input").val().trim();
-    var symp2 = $("#symptom2-input").val().trim();
-    var symp3 = $("#symptom3-input").val().trim();});
-   
- // Lennox code below!
- // Initialize variables
+// Lennox code below!
+// Initialize variables
 var diagnosis;
 var results;
 var formResults;
 var ptAnswer;
 var ptGender;
 var ptAge;
+var ptZip;
 var questionCount = 0;
+var newIssue;
 var symptoms = {
     "text": null
 }; 
@@ -30,24 +21,50 @@ var ptData = {
     }
 };
 
-// Captures user age
-$("#age-input").val().trim() = ptAge;
-ptData['age'] = ptAge;
+// Processes user input of symptoms
+$("#enterSymptoms").on("click", function(){
+
+    event.preventDefault();
+
+    newIssue = $("#userSymptoms").val().trim();
+    console.log(newIssue);
+
+    sessionStorage.clear();
+    sessionStorage.setItem("newIssue", newIssue);
+    
+});
 
 // Assigns gender on patient entry
 $("#female").on("click", function(){
+
+    event.preventDefault();
+
     ptGender = "female";
     ptData['sex'] = ptGender;
 });
 
 $("#male").on("click", function(){
+
+    event.preventDefault();
+
     ptGender = "male";
     ptData['sex'] = ptGender;
 });
 
-// Processes user input of symptoms
-$("#").on("click", function(){
-    symptoms["text"] = $("#").val().trim();
+// Captures user age
+$("#add-userdata-btn").on("click", function(){
+
+    event.preventDefault();
+
+    symptoms["text"] = sessionStorage.getItem("newIssue");
+    console.log(symptoms["text"]);
+
+    console.log(symptoms);
+
+    ptAge = $("#age-input").val().trim();
+    ptData['age'] = ptAge;
+    ptZip = $("#zipcode-input").val().trim();
+    sessionStorage.setItem("ptZip", ptZip);
 
     $.ajax({
         url: 'https://api.infermedica.com/v2/parse',
@@ -66,7 +83,7 @@ $("#").on("click", function(){
 
             // Turns string into object to select from
             formResults = JSON.parse(results);
-            console.log(JSON.parse(results));
+            console.log(formResults);
 
             // Loops through array of possible symptoms and adds them to evidence
             for (var i = 0; i < formResults.mentions.length; i++){
@@ -82,7 +99,9 @@ $("#").on("click", function(){
             triage(); 
         }
     });
-});
+})
+
+
 
 function triage(){
     if (questionCount < 5){
@@ -104,13 +123,14 @@ function triage(){
 
                 // Turns result into string
                 results = JSON.stringify(answer);
+                console.log("string results", results);
 
                 // Turns string into object to select from
                 formResults = JSON.parse(results);
-                console.log(JSON.parse(results));
+                console.log("object results", formResults);
 
                 // Writes follow up question to screen
-                $("#").text(formResults.question.text);
+                $("#followup1-input").text(formResults.question.text);
                 console.log(formResults.question.items[0].id);
 
                 // Confirms that result is a string
@@ -126,8 +146,8 @@ function triage(){
                 noButton.text("No");
                 noButton.attr("id", "noButton");
                 noButton.attr("data-name", "no");
-                $("#").append(yesButton); // Need to add yes or no buttons to correct div
-                $("#").append(noButton);
+                $("#followup1-input").append(yesButton); 
+                $("#followup1-input").append(noButton);
 
                 $("#yesButton").on("click", function(){
                     ptAnswer = $(this).attr("data-name");
@@ -140,13 +160,15 @@ function triage(){
             }
         });
     } else {
+        // Prompt user to view third page
+        $("#followup1-input").text("Click 'Get Diagnosed' to view your assessment");
 
         // Displays final diagnosis on screen
         diagnosis = formResults.conditions[0]["name"];
         var diagnosisDisplay = $("<div>");
         diagnosisDisplay.attr("id", "diagnosis");
         diagnosisDisplay.text("Well...it looks you might have: " + diagnosis);
-        $("#").append(diagnosisDisplay); // Need name of display div
+        $("#displayDiagnosis").append(diagnosisDisplay); // Need name of display div
 
     }
 };
@@ -178,10 +200,6 @@ function addSymptom(ptAnswer){
         triage();
     };
 };
- 
-=======
-    $(".form-group").append("<input/>")
-})
-master
+
 
 
