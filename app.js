@@ -1,6 +1,6 @@
 // Lennox code below!
 // Initialize variables
-var diagnosis;
+var finalDiagnosis;
 var results;
 var formResults;
 var ptAnswer;
@@ -179,9 +179,9 @@ function triage(){
     } else {
 
         // Save final diagnosis
-        diagnosis = formResults.conditions[0]["name"];
-        console.log("this is the final diagnosis", diagnosis);
-        sessionStorage.setItem("diagnosis", diagnosis);
+        finalDiagnosis = formResults.conditions[0]["name"];
+        console.log("this is the final diagnosis", finalDiagnosis);
+        sessionStorage.setItem("diagnosis", finalDiagnosis);
         console.log(sessionStorage.getItem("diagnosis"));
 
         // Prompt user to view third page
