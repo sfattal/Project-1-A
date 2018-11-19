@@ -214,5 +214,172 @@ function addSymptom(){
 
 $(document).ready(function(){
     $("#displayDiagnosis").text("Well...it looks you might have: " + sessionStorage.getItem("diagnosis"));
+
+// Sung's BetterDoctor begins here ----------------------------------
+
+        var diagnosis = sessionStorage.getItem("diagnosis");
+       
+        $("#doc-button").on("click", function() {
+           
+            getLocation();
+
+                function getLocation() {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(showPosition);
+                    } else { 
+                        alert("Geolocation is not supported by this browser!");
+                    }
+                }
+   
+                function showPosition(position) {
+
+                    var userLat = position.coords.latitude;
+                    var userLong = position.coords.longitude;
+                    var queryURL = "https://api.betterdoctor.com/2016-03-01/doctors?query=" + diagnosis + "&location=40.730610,-73.935242,5&user_location=" + userLat + "," + userLong + "&skip=0&limit=5&user_key=9e72f5f3689906e7d41eb04c90ac91a3";
+                    console.log(queryURL);
+                    console.log(userLat);
+                    console.log(userLong);
+
+                $.ajax({
+                    url: queryURL,
+                    method: "GET"
+                })
+
+                .then(function(response) {
+                    var doctors = response.data;
+                        
+                        // Profiles ---------------------------
+                        function makeProfileHTML(profile) {
+                            var profileDiv = $("<div>");
+
+                                var docFirst = profile.first_name;
+                                console.log(docFirst);
+                                var docLast = profile.last_name;
+                                console.log(docFirst);
+                                var docImage = profile.image_url;
+                                var nameSpan = $("<p>").text(docFirst + " " + docLast);
+                                var image = $("<img>");
+                                    image.attr('src', docImage);
+                                    $(profileDiv).append(image);
+                                    $(profileDiv).append(nameSpan);
+                            
+                            return profileDiv
+                        }
+
+                        // Practices ---------------------------
+                        function makePracticesHTML(practices) {
+                            
+                            var practiceDiv = $("<div>");
+                                var addressArr = [];
+                                var cityArr = [];
+                                var stateArr = [];
+                                var zipArr = [];
+                                var phoneArr = [];
+
+                            for (var i = 0; i < practices.length; i++) {
+
+                                    var chainDocPractices = practices[i];
+                                    for (var cdp = 0; cdp < chainDocPractices.phones.length; cdp++) {
+                                    
+                                    addressArr.push(practices[i].visit_address.street);
+                                    cityArr.push(practices[i].visit_address.city);
+                                    stateArr.push(practices[i].visit_address.state);
+                                    zipArr.push(practices[i].visit_address.zip);
+                                    phoneArr.push(chainDocPractices.phones[cdp].number);
+                                }
+                            }
+                                // we're adding [0] of each arrays to remove duplicates
+                                var addressSpan = $("<span>").text("Address: " + addressArr[0] + ", " + cityArr[0] + ", " + stateArr[0] + " " + zipArr[0]).append("<br>");
+                                var phoneSpan = $("<span>").text("Phone: " + phoneArr[0]).append("<br>");
+                                    $(practiceDiv).append(addressSpan);
+                                    $(practiceDiv).append(phoneSpan);
+
+                            return practiceDiv
+                        }
+
+                        // Ratings ---------------------------
+                        function makeRatingsHTML(ratings) {
+                            
+                            var ratingDiv = $("<div>");
+                            var ratingArr = [];
+                            var ratingProviderArr = [];
+
+                            for (var i = 0; i < ratings.length; i++) {
+                                ratingArr.push(ratings[i].rating);
+                                ratingProviderArr.push(ratings[i].provider);
+                            }
+
+                            var ratingSpan = $("<p>").text("Rating: " + ratingArr[0]).append("<br>");
+                            var ratingNo = $("<p>").text("Rating: " + "No Rating").append("<br>");
+                            
+                                if (ratingProviderArr[0] === "betterdoctor") {
+                                        $(ratingDiv).append(ratingSpan);
+                                    } else {
+                                        $(ratingDiv).append(ratingNo);
+                                    }
+
+                            return ratingDiv
+                        }
+
+                        // Insurances ---------------------------
+                        function makeInsurancesHTML(insurances) {
+
+                            var insurancesDiv = $("<div>");
+                            var insurancesArr = [];
+
+                            for (var i = 0; i < insurances.length; i++) {
+                                insurancesArr.push(insurances[i].insurance_plan.name);
+                            }
+                            
+                            var uniqueInsurances = [];
+                            $.each(insurancesArr, function(i, el){
+                                if($.inArray(el, uniqueInsurances) === -1) uniqueInsurances.push(el);
+                                });
+
+                            for (var i = 0; i < uniqueInsurances.length; i++) {
+                                var insuranceSpan = $("<span>").text(uniqueInsurances[i]).append("<br>");
+                                $(insurancesDiv).append(insuranceSpan);
+                            }
+
+                            return insurancesDiv
+                        }
+
+                        // Specialties ---------------------------
+                        function makeSpecialtiesHTML(specialties) {
+                            var specialtiesDiv = $("<div>");
+                            var specialtiesArr = [];
+
+                            for (var i = 0; i < specialties.length; i++) {
+                                specialtiesArr.push(specialties[i].name);
+                            }
+
+                                var specialtySpan = $("<span>").text("Specialty: " + specialtiesArr[0]);
+                                $(specialtiesDiv).append(specialtySpan);
+
+                            return specialtiesDiv
+                        }
+
+                        // Final Rendering ---------------------------
+                        for (var i = 0; i < doctors.length; i++) {
+                            var docDiv = $("<div>");
+                            var profileHTML = makeProfileHTML(doctors[i].profile)
+                            var practicesHTML = makePracticesHTML(doctors[i].practices);
+                            var ratingsHTML = makeRatingsHTML(doctors[i].ratings);
+                            var insuranceHTML = makeInsurancesHTML(doctors[i].insurances);
+                            var specialtyHTML = makeSpecialtiesHTML(doctors[i].specialties);
+                            
+                            docDiv.append(profileHTML);
+                            docDiv.append(practicesHTML);
+                            docDiv.append(specialtyHTML);
+                            docDiv.append(ratingsHTML);
+                            docDiv.append(insuranceHTML);
+                            $("#displayDoctors").append(docDiv);
+                        }
+        
+                    });
+            }
+
+       });
+
 });
 
