@@ -31,6 +31,11 @@ $("#enterSymptoms").on("click", function(){
 
     sessionStorage.clear();
     sessionStorage.setItem("newIssue", newIssue);
+    $("#userSymptoms").val("");
+    var speechP = $("<p>");
+    speechP.addClass("speech-bubble");
+    speechP.text(sessionStorage.getItem("newIssue"));
+    $("#speech-bubble-two").append(speechP);
     
 });
 
@@ -203,10 +208,12 @@ function addSymptom(){
         console.log("this is the new evidence", newEvidence)
         triage();
     } else if (ptAnswer === 'no'){
+        var newSymptom = formResults.question.items[0].id
         var newEvidence = {
             "id": newSymptom,
             "choice_id": "absent"
         };
+        console.log("this is the no evidence", newEvidence);
         ptData["evidence"].push(newEvidence);
         triage();
     };
