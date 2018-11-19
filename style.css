@@ -2,6 +2,8 @@
 	background-color: #428bca
 }
 
+
+
 .jumbotron h1 {
 	color:white;
 }
@@ -9,71 +11,56 @@
 p, h1, h4 {
 	font-family: 'Roboto Slab', serif;
 }
-#userSymptoms span{
-	max-width: 200px;
-}
-#funText {
-	color: black;
-	font-size: 24px;
-	font-family: 'Roboto Slab', serif;
-}
 
-#box {
-	height: 100px;
-	width: 100px;
-	margin:auto;
-}
-/* container */
+
 .container {
     padding: 5% 5%;
  }
 
- .speech-bubble {
+ 
+ #speech-bubble-one {
 	position: relative;
-	background: #00aabb;
+	background: #e6ffe6;
 	border-radius: .4em;
+	border: 1px solid #ccffcc;
 }
 
-.speech-bubble:after {
+#speech-bubble-one:after {
 	content: '';
 	position: absolute;
 	left: 0;
 	top: 50%;
-	width: 0;
+	width: 11%;
 	height: 0;
-	border: 75px solid transparent;
-	border-right-color: #00aabb;
+	border: 20px solid transparent;
+	border-right-color: #e6ffe6;
 	border-left: 0;
 	border-bottom: 0;
-	margin-top: -37.5px;
-	margin-left: -75px;
-}
-.speech-bubble {
-    background: #efefef;
-    -webkit-border-radius: 4px;
-            border-radius: 4px;
-    font-size: 1.2rem;
-    line-height: 1.3;
-    margin: 0 auto 40px;
-    max-width: 200px;
-    padding: 15px;
-    position: left;
+	margin-top: -10px;
+	margin-left: -20px;
 }
 
-.speech-bubble p {
-    margin: 0 0 40px;
-}
-.speech-bubble p:last-of-type {
-    margin-bottom: 0;
+#speech-bubble-two {
+	position: relative;
+	background: #e6ffe6;
+	border-radius: .4em;
+	border: 1px solid #ccffcc;
+	  
 }
 
-.speech-bubble::after {
-    border-left: 20px solid transparent;
-    border-top: 20px solid #efefef;
-    bottom: -20px;
-    content: "";
-    position: absolute;
-	left: 20px;
-	margin-top: -37.5px;
-	margin-left: -75px;
+#speech-bubble-two:after {
+	content: '';
+	position: absolute;
+	right: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 20px solid transparent;
+	border-left-color: #e6ffe6;
+	border-right: 0;
+	border-bottom: 0;
+	margin-top: -10px;
+	margin-right: -20px;
 }
+
+
