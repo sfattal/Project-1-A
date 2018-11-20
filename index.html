@@ -1,117 +1,100 @@
  <!DOCTYPE html>
 <html>
 <head>
-	<title>Project 1-A</title>
+	<title>What's Wrong With Me?</title>
+	<link rel="icon" type="image/png" href="images/favicon.png">
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-	<!-- Linking CSS -->
-	<link rel="stylesheet" type="text/css" href="style.css">
 	<!-- Linking jQuery -->
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 	<!-- Linking Google Fonts -->
-    <link href='https://fonts.googleapis.com/css?family=Montserrat|Roboto+Slab|Yellowtail' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Montserrat|Roboto+Slab|Yellowtail' rel='stylesheet' type='text/css'>
+	<!-- Linking CSS -->
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
+
 <body>
+	<div class="container">
 
-        
-
-<div class="container">
-
-          
-
-	<div class="jumbotron bg-primary text-center">
-		<h1>What's Wrong With Me?</h1>
-	</div>
-
-	<div class="row">
-	
-		<div class="col-lg-6">
-			<div class="panel panel-primary">
-				<div class="panel-heading">How It Works</div>
-				<div class="panel-body">
-					<p>
-						When you're not feeling well, have injured yourself and don't know where to go to get treatment, type your symptoms in the form to the right, and get recommendations for where to seek treatment .
-					</p> 
-					<p>
-						We'll search your symptoms, let you know potential diagnoses, and provide a list of health care providers in your area.
-					
+		<div class="jumbotron bg-primary text-center">
+			<div class="row">
+				<div class="col-lg-2">
+					<img class="img-responsive" id="logo" src="images/logo.png">
+				</div>
+				<div class="col-lg-10">
+					<h1>What's Wrong With Me?</h1>
 				</div>
 			</div>
 		</div>
 
-		<div class="col-lg-6">
-			<div class="well text-center">
-				<div class="row">
-					<div class="col-lg-6">
-						<img class="img-responsive" src="doctor.jpg">
-					</div>
-					<div class="col-lg-6">
-						<!-- bubble -->
-
-              		<div id="speech-bubble-one" class="speech-bubble">
-               		 <p>How are you feeling right now?</p>
-               		 </div>
-              		</div>
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="panel panel-primary">
+					<div class="panel-heading">How It Works</div>
+					<div class="panel-body">
+						<p>
+							When you're not feeling well, have injured yourself and don't know where to go to get treatment, type your symptoms in the form to the right, and get recommendations for where to seek treatment .
+						</p> 
+						<p>
+							We'll search your symptoms, let you know potential diagnoses, and provide a list of health care providers in your area.
+						</p>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-lg-6">
+			</div>
+
+			<div class="col-lg-6">
+				<div class="well text-center">
+					<div class="row" id="chat">
+						<div class="col-lg-6">
+							<img class="img-responsive" id="doc" src="images/doctor.png">
+						</div>
+						<div class="col-lg-6">			
+							<div id="speech-bubble-one" class="speech-bubble">
+								<p>Tell me how you're feeling?</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="row" id="chat">
+						<div class="col-lg-6">
 							<div id="speech-bubble-two" class="speech-bubble">
-									<p>Symptoms append here after submit.</p>
-								</div>
-								
-						<!-- bubble -->
+								<p>...</p>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<img class="img-responsive" src="images/patient.png">
+						</div>
 					</div>
-					<div class="col-lg-6">
-						<img class="img-responsive" src="patient.jpg">
-					</div>
+
+					<form>
+						<div class="form-group">
+							<label for="symptom1-input"></label>
+							<input class="form-control" id="userSymptoms" placeholder="I feel stomach pain but no coughing today" type="text">
+							<span contenteditable="true"></span>
+						</div>
+						<button class="btn btn-primary float-right" id="enterSymptoms">Submit</button>
+						<button class="btn btn-primary float-right" id="clear-symptom-btn">Clear</button>
+					</form> 
 				</div>
-				<!-- <div>
-					<img class="img-responsive" src="doctor.jpg">
-			
-				</div> -->
-				<!-- Entry Form -->
-				<form>
-					<div class="form-group">
-					  <label for="symptom1-input">Tell me what's wrong with you:</label>
-					  <input class="form-control" id="userSymptoms" placeholder="I feel stomach pain but no coughing today" type="textbox">
-					<span contenteditable="true"></span>
-					</div>
-					<button class="btn btn-primary float-right" id="enterSymptoms">Submit</button>
-					<button class="btn btn-primary float-right" id="clear-symptom-btn">Clear</button>
-				  </form> 
+			</div>
+
+		</div>
+
+		<br><br>
+		
+		<div class="row text-center">			
+			<div class="col-lg-12">
+				<a class="btn btn-primary" href=index2.html>Next</a>
+			</div>
+		</div>	
+		<br><br>
+		<div class="row text-center">			
+			<div class="col-lg-12">
+				<button class="btn" id="infoBtn">disclaimer</button>
 			</div>
 		</div>
-
 	</div>
 
-	<br><br>
-	
-	<div class="row text-center">
-			
-		<div class="col-lg-6 col-lg-offset-2">
-			<a class="btn btn-primary" href=index2.html>> Next</a>
-			<br>
-		</div>
-
-	</div>
-		
-	<br><br>	
-
-    <div class="row text-center">
-			
-		<div class="col-lg-6 col-lg-offset-2">
-			<button class="btn" id="infoBtn">?</button>
-			<br>
-		</div>
-
-	</div>
-
-	<br><br><br><br>
-
-</div>
-
-<!-- Linking our JavaScript file -->
-<script type="text/javascript" src="app.js"></script>
+	<script type="text/javascript" src="app.js"></script>
 </body>
 </html>

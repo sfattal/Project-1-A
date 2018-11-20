@@ -1,30 +1,52 @@
-.jumbotron {
-	background-color: #428bca
+body {
+	background-color: #262626c0
 }
-
-
-
+.jumbotron {
+	background-color: transparent;
+}
+#logo {
+	height: 200px;
+}
 .jumbotron h1 {
 	color:white;
 }
-
 p, h1, h4 {
 	font-family: 'Roboto Slab', serif;
 }
-
-
+#chat {
+	padding: 10px;
+}
+#doc {
+	float: right;
+}
 .container {
-    padding: 5% 5%;
- }
-
- 
- #speech-bubble-one {
+    padding: 2% 2%;
+}
+.btn {
+	background-color: #5faddb;
+	color: white;
+    border-color: #2e6da4;
+}
+.panel-primary>.panel-heading {
+	background-color: #5faddb;
+	color: white;
+	font-weight: bold;
+}
+.panel-primary>.panel-body {
+	background-color: #b2b2b2;
+	border: 1px solid #5faddb;
+	/* color: white; */
+}	
+.well {
+	background-color: #b2b2b2;
+	border: 1.5px solid #5faddb;
+}
+#speech-bubble-one {
 	position: relative;
 	background: #e6ffe6;
 	border-radius: .4em;
 	border: 1px solid #ccffcc;
 }
-
 #speech-bubble-one:after {
 	content: '';
 	position: absolute;
@@ -39,15 +61,12 @@ p, h1, h4 {
 	margin-top: -10px;
 	margin-left: -20px;
 }
-
 #speech-bubble-two {
 	position: relative;
 	background: #e6ffe6;
 	border-radius: .4em;
 	border: 1px solid #ccffcc;
-	  
 }
-
 #speech-bubble-two:after {
 	content: '';
 	position: absolute;
@@ -62,5 +81,28 @@ p, h1, h4 {
 	margin-top: -10px;
 	margin-right: -20px;
 }
-
-
+#followup1-input {
+	/* color: white; */
+	font-weight: bold;
+}
+#noButton, #yesButton {
+	width: 60px;
+	padding: 10px;
+	margin: 10px;
+	border-radius: 4px;
+	background-color: #5faddb;
+	color: white;
+	border-color: #2e6da4;
+	
+}
+#noButton:hover, #yesButton:hover, .btn-success:hover, .btn-success:active {
+    background-color: #2e6da4;
+	border-color: #2e6da4;
+	font-weight: bold;
+}
+#displayDiagnosis {
+	/* color: white; */
+	font-weight: bold;
+	border: none;
+	margin-bottom: 20px;
+}
