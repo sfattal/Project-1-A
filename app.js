@@ -217,7 +217,8 @@ function addSymptom(){
 };
 
 $(document).ready(function(){
-    $("#displayDiagnosis").html("<h2>Well...it looks you might have: " + sessionStorage.getItem("diagnosis") + "</h2>");
+
+    // $("#displayDiagnosis").html("<h2>Well...it looks you might have: " + sessionStorage.getItem("diagnosis") + "</h2>");
 
 // Sung's BetterDoctor begins here ----------------------------------
 
