@@ -32,10 +32,7 @@ $("#enterSymptoms").on("click", function(){
     sessionStorage.clear();
     sessionStorage.setItem("newIssue", newIssue);
     $("#userSymptoms").val("");
-    var speechP = $("<p>");
-    speechP.addClass("speech-bubble");
-    speechP.text(sessionStorage.getItem("newIssue"));
-    $("#speech-bubble-two").append(speechP);
+    $("#speech-bubble-two").text(newIssue);
     
 });
 
@@ -220,7 +217,7 @@ function addSymptom(){
 };
 
 $(document).ready(function(){
-    $("#displayDiagnosis").text("Well...it looks you might have: " + sessionStorage.getItem("diagnosis"));
+    $("#displayDiagnosis").html("<h2>Well...it looks you might have: " + sessionStorage.getItem("diagnosis") + "</h2>");
 
 // Sung's BetterDoctor begins here ----------------------------------
 
