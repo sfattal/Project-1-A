@@ -1,6 +1,6 @@
 // Lennox code below!
 // Initialize variables
-var diagnosis;
+var finalDiagnosis;
 var results;
 var formResults;
 var ptAnswer;
@@ -31,6 +31,11 @@ $("#enterSymptoms").on("click", function(){
 
     sessionStorage.clear();
     sessionStorage.setItem("newIssue", newIssue);
+    $("#userSymptoms").val("");
+    var speechP = $("<p>");
+    speechP.addClass("speech-bubble");
+    speechP.text(sessionStorage.getItem("newIssue"));
+    $("#speech-bubble-two").append(speechP);
     
 });
 
@@ -179,9 +184,9 @@ function triage(){
     } else {
 
         // Save final diagnosis
-        diagnosis = formResults.conditions[0]["name"];
-        console.log("this is the final diagnosis", diagnosis);
-        sessionStorage.setItem("diagnosis", diagnosis);
+        finalDiagnosis = formResults.conditions[0]["name"];
+        console.log("this is the final diagnosis", finalDiagnosis);
+        sessionStorage.setItem("diagnosis", finalDiagnosis);
         console.log(sessionStorage.getItem("diagnosis"));
 
         // Prompt user to view third page
@@ -203,10 +208,12 @@ function addSymptom(){
         console.log("this is the new evidence", newEvidence)
         triage();
     } else if (ptAnswer === 'no'){
+        var newSymptom = formResults.question.items[0].id
         var newEvidence = {
             "id": newSymptom,
             "choice_id": "absent"
         };
+        console.log("this is the no evidence", newEvidence);
         ptData["evidence"].push(newEvidence);
         triage();
     };
