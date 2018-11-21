@@ -1,6 +1,10 @@
 // Lennox code below!
 // Initialize variables
 var finalDiagnosis;
+var finalSuggestion;
+var finalID;
+var condResults;
+var finalcondResults;
 var results;
 var formResults;
 var ptAnswer;
@@ -181,13 +185,20 @@ function triage(){
     } else {
 
         // Save final diagnosis
+        console.log(formResults);
         finalDiagnosis = formResults.conditions[0]["name"];
+        console.log("this is the id you need:", formResults.conditions[0]["id"]);
+        finalID = formResults.conditions[0]["id"];
         console.log("this is the final diagnosis", finalDiagnosis);
         sessionStorage.setItem("diagnosis", finalDiagnosis);
+        sessionStorage.setItem("finalID", finalID);
         console.log(sessionStorage.getItem("diagnosis"));
+        console.log(sessionStorage.getItem("finalID"));
 
         // Prompt user to view third page
         $("#followup1-input").text("Click 'Get Diagnosed' to view your assessment");
+
+        providerSuggestion();
     }
 };
 
@@ -216,9 +227,42 @@ function addSymptom(){
     };
 };
 
+function providerSuggestion(){
+    $.ajax({
+        url: "https://api.infermedica.com/v2/conditions/" + sessionStorage.getItem("finalID") + "",
+        headers: {
+            'App-Key':'40e6e4c193572624b23c98565566e25f',
+            'App-Id':'041cc529',
+            'Content-Type':'application/json'
+        },
+        method: 'GET',
+        dataType: 'json',
+        success: function(answer){
+    
+            // Turns result into string
+            condResults = JSON.stringify(answer);
+    
+            // Turns string into object to select from
+            finalcondResults = JSON.parse(condResults);
+            console.log("triage results", finalcondResults);
+            console.log("new hint", finalcondResults.extras.hint);
+            finalSuggestion = finalcondResults.extras.hint;
+            sessionStorage.setItem("suggestion", finalSuggestion);
+
+    
+    
+        }
+    });
+}
+
+
+
 $(document).ready(function(){
 
     $("#displayDiagnosis").html("<h2>Well...it looks you might have: " + sessionStorage.getItem("diagnosis") + "</h2>");
+    var secondDiv = $("<div>");
+    secondDiv.html("<h3>" + sessionStorage.getItem("suggestion") + "</h3>");
+    $("#displayDiagnosis").append(secondDiv);
 
 // Sung's BetterDoctor begins here ----------------------------------
 
