@@ -297,22 +297,29 @@ $(document).ready(function(){
                 .then(function(response) {
                     var doctors = response.data;
                         
-                        // Profiles ---------------------------
+                        // Image from Profiles ---------------------------
                         function makeProfileHTML(profile) {
                             var profileDiv = $("<div>");
 
-                                var docFirst = profile.first_name;
-                                console.log(docFirst);
-                                var docLast = profile.last_name;
-                                console.log(docFirst);
                                 var docImage = profile.image_url;
-                                var nameSpan = $("<p>").text(docFirst + " " + docLast);
                                 var image = $("<img>");
+                                    image.attr('class', "doc-img");
                                     image.attr('src', docImage);
+                                    image.attr('alt', "Doctor 1");
+                                    image.attr('style', "display: block; margin-left: 0px; margin-right: auto; width: 20%");
                                     $(profileDiv).append(image);
-                                    $(profileDiv).append(nameSpan);
                             
                             return profileDiv
+                        }
+
+                        // Name from Profile ---------------------------
+                        function makeNameHTML(profile) {
+                            var docFirst = profile.first_name;
+                            var docLast = profile.last_name;
+
+                            var nameDiv = $("<h5>").text(docFirst + " " + docLast);
+
+                            return nameDiv
                         }
 
                         // Practices ---------------------------
@@ -410,19 +417,56 @@ $(document).ready(function(){
 
                         // Final Rendering ---------------------------
                         for (var i = 0; i < doctors.length; i++) {
-                            var docDiv = $("<div>");
+
                             var profileHTML = makeProfileHTML(doctors[i].profile)
+                            var nameHTML = makeNameHTML(doctors[i].profile)
                             var practicesHTML = makePracticesHTML(doctors[i].practices);
                             var ratingsHTML = makeRatingsHTML(doctors[i].ratings);
                             var insuranceHTML = makeInsurancesHTML(doctors[i].insurances);
                             var specialtyHTML = makeSpecialtiesHTML(doctors[i].specialties);
                             
+                            var containerDiv = $("<div>");
+                            if (i === 0) {
+                                containerDiv.attr('class', "container item active");
+                            } else {
+                                containerDiv.attr('class', "container item");
+                            }
+
+                            var rowDiv = $("<div>");
+                            rowDiv.attr('class', "row");
+
+                            var columnDiv1 = $("<div>");
+                            columnDiv1.attr('class', "col-sm-2");
+                            
+                            var columnDiv2 = $("<div>");
+                            columnDiv2.attr('class', "col-sm-7");
+                            
+                            var columnDiv3 = $("<div>");
+                            columnDiv3.attr('class', "col-sm-3");
+
+
+                            var docDiv = $("<div>");
+                            var subDiv = $("<div>");
+
                             docDiv.append(profileHTML);
-                            docDiv.append(practicesHTML);
-                            docDiv.append(specialtyHTML);
-                            docDiv.append(ratingsHTML);
-                            docDiv.append(insuranceHTML);
-                            $("#displayDoctors").append(docDiv);
+
+                            subDiv.append(nameHTML);
+                            subDiv.append(practicesHTML);
+                            subDiv.append(specialtyHTML);
+                            subDiv.append(ratingsHTML);
+                            subDiv.append(insuranceHTML);
+                            subDiv.attr('class', "carousel-caption d-none d-md-block");
+                            subDiv.attr('style', "margin-right: 0px; height: 100%");
+
+                            $("#carousel-doctors").append(containerDiv);
+                            $(containerDiv).append(rowDiv);
+                            $(rowDiv).append(columnDiv1);
+                            $(rowDiv).append(columnDiv2);
+                            $(rowDiv).append(columnDiv3);
+                            $(columnDiv2).append(docDiv);
+                            docDiv.append(subDiv);
+
+
                         }
         
                     });
