@@ -297,22 +297,27 @@ $(document).ready(function(){
                 .then(function(response) {
                     var doctors = response.data;
                         
-                        // Profiles ---------------------------
+                        // Image from Profiles ---------------------------
                         function makeProfileHTML(profile) {
-                            var profileDiv = $("<div>");
 
-                                var docFirst = profile.first_name;
-                                console.log(docFirst);
-                                var docLast = profile.last_name;
-                                console.log(docFirst);
                                 var docImage = profile.image_url;
-                                var nameSpan = $("<p>").text(docFirst + " " + docLast);
                                 var image = $("<img>");
+                                    image.attr('class', "doc-img");
                                     image.attr('src', docImage);
-                                    $(profileDiv).append(image);
-                                    $(profileDiv).append(nameSpan);
-                            
-                            return profileDiv
+                                    image.attr('alt', "Doctor Image");
+                                    // image.attr('style', "display: block; margin-left: 0px; margin-right: auto; width: 20%");
+                            return image
+                        }
+
+                        // Name from Profile ---------------------------
+                        function makeNameHTML(profile) {
+                            var docFirst = profile.first_name;
+                            var docLast = profile.last_name;
+
+                            var nameDiv = $("<h5>").text(docFirst + " " + docLast);
+                            nameDiv.attr('class', "card-header");
+
+                            return nameDiv
                         }
 
                         // Practices ---------------------------
@@ -410,19 +415,63 @@ $(document).ready(function(){
 
                         // Final Rendering ---------------------------
                         for (var i = 0; i < doctors.length; i++) {
-                            var docDiv = $("<div>");
+
                             var profileHTML = makeProfileHTML(doctors[i].profile)
+                            var nameHTML = makeNameHTML(doctors[i].profile)
                             var practicesHTML = makePracticesHTML(doctors[i].practices);
                             var ratingsHTML = makeRatingsHTML(doctors[i].ratings);
                             var insuranceHTML = makeInsurancesHTML(doctors[i].insurances);
                             var specialtyHTML = makeSpecialtiesHTML(doctors[i].specialties);
                             
-                            docDiv.append(profileHTML);
-                            docDiv.append(practicesHTML);
-                            docDiv.append(specialtyHTML);
-                            docDiv.append(ratingsHTML);
-                            docDiv.append(insuranceHTML);
-                            $("#displayDoctors").append(docDiv);
+
+                            var containerDiv = $("<div>");
+                            containerDiv.attr('class', "col-lg-12 well text-center")
+
+                            var cardDiv = $("<div>");
+                            cardDiv.attr('class', "card");
+                            
+                            var cardBody = $("<div>");
+                            cardBody.attr('class', "card-body");
+
+                            var cardTitle = $("<h5>");
+                            cardTitle.attr('class', "card-title")
+
+                            var cardRating = $("<p>");
+                            cardRating.attr('class', "card-text");
+
+                            var cardButton = $("<button>");
+                            cardButton.attr('class', "btn btn-primary");
+                            cardButton.attr('type', "button");
+                            cardButton.attr('data-toggle', "collapse");
+                            cardButton.attr('data-target', "#collapseExample");
+                            cardButton.attr('aria-expanded', "false");
+                            cardButton.attr('aria-controls', "collapseExample");
+                            cardButton.text("Accepted Insurances");
+
+                            var collapseExample = $("<div>");
+                            collapseExample.attr('class', "collapse");
+                            collapseExample.attr('id', "collapseExample");
+
+                            var insurancesBody = $("<div>");
+                            insurancesBody.attr('class', "card card-body");
+
+                            $("#card-doctor").append(containerDiv);
+                            containerDiv.append(cardDiv);
+                            cardDiv.append(profileHTML);
+                            cardDiv.append(nameHTML);
+                            cardDiv.append(cardBody);
+                            cardBody.append(cardTitle);
+                            cardBody.append(cardRating);
+                            cardBody.append(cardButton);
+                            cardBody.append(collapseExample);
+                            cardTitle.append(practicesHTML);
+                            cardRating.append(ratingsHTML);
+                            collapseExample.append(insurancesBody);
+                            insurancesBody.append(insuranceHTML);
+
+
+
+
                         }
         
                     });
