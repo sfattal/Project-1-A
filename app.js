@@ -429,6 +429,9 @@ $(document).ready(function(){
 
                             var cardDiv = $("<div>");
                             cardDiv.attr('class', "card");
+
+                            var cardSpecialty = $("<p>");
+                            cardSpecialty.attr('class', "card-text");
                             
                             var cardBody = $("<div>");
                             cardBody.attr('class', "card-body");
@@ -459,6 +462,8 @@ $(document).ready(function(){
                             containerDiv.append(cardDiv);
                             cardDiv.append(profileHTML);
                             cardDiv.append(nameHTML);
+                            cardDiv.append(cardSpecialty);
+                            cardSpecialty.append(specialtyHTML);
                             cardDiv.append(cardBody);
                             cardBody.append(cardTitle);
                             cardBody.append(cardRating);
