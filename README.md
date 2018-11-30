@@ -7,7 +7,7 @@ https://sfattal.github.io/Project-1-A/
 2. Next, Input your gender, age, and zip code so that another API, BetterDoctor, can return information about nearby care providers suited to the diagnosis
 3. Select a care provider from the options provided for more details about that specific doctor
 
-Team:
+## Team:
 - Amy Oconnor 
 - Adora Okogeri
 - Lennox David
