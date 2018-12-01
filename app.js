@@ -267,27 +267,81 @@ $(document).ready(function(){
 // Sung's BetterDoctor begins here ----------------------------------
 
         var diagnosis = sessionStorage.getItem("diagnosis");
+        var userZipcode = sessionStorage.getItem("ptZip");
+        console.log("zip: " + userZipcode)
+        
+        var queryURL;
+        var userLat;
+        var userLong;
+        var google = false;
        
         $("#doc-button").on("click", function() {
-           
+            
             getLocation();
 
                 function getLocation() {
                     if (navigator.geolocation) {
-                        navigator.geolocation.getCurrentPosition(showPosition);
+                        navigator.geolocation.getCurrentPosition(showPosition, showError);
                     } else { 
                         alert("Geolocation is not supported by this browser!");
                     }
                 }
-   
+
+                function showError(error) {
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            googleZipcode()
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            googleZipcode()
+                            break;
+                        case error.TIMEOUT:
+                            googleZipcode()
+                            break;
+                        case error.UNKNOWN_ERROR:
+                            googleZipcode()
+                            break;
+                    }
+                }
+                
+                function googleZipcode() {
+
+                    google = true;
+                    var googleURL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + userZipcode + "&components=postal_code:" + userZipcode + "&key=AIzaSyDFTJ2SY-u5McOmAaic0i0l-kp_0oY95Po";
+                    console.log("google url: " + googleURL);
+                        
+                            $.ajax({
+                                url: googleURL,
+                                method: "GET"
+                            }).then(function(response) {
+                                // console.log(response);
+                                userLat = response.results[0].geometry.location.lat;
+                                // console.log(userLat);
+                                userLong = response.results[0].geometry.location.lng;
+                                console.log("google: " + userLat);
+                                console.log("google: " + userLong);
+                                showPosition();
+                            });
+
+                }
+
+
                 function showPosition(position) {
 
-                    var userLat = position.coords.latitude;
-                    var userLong = position.coords.longitude;
-                    var queryURL = "https://api.betterdoctor.com/2016-03-01/doctors?query=" + diagnosis + "&location=40.730610,-73.935242,5&user_location=" + userLat + "," + userLong + "&skip=0&limit=5&user_key=9e72f5f3689906e7d41eb04c90ac91a3";
-                    console.log(queryURL);
-                    console.log(userLat);
-                    console.log(userLong);
+                    if (google === true) {
+
+                        queryURL = "https://api.betterdoctor.com/2016-03-01/doctors?query=" + diagnosis + "&location=40.730610,-73.935242,5&user_location=" + userLat + "," + userLong + "&skip=0&limit=5&user_key=9e72f5f3689906e7d41eb04c90ac91a3";
+
+                    } else {
+
+                        userLat = position.coords.latitude;
+                        userLong = position.coords.longitude;
+                        queryURL = "https://api.betterdoctor.com/2016-03-01/doctors?query=" + diagnosis + "&location=40.730610,-73.935242,5&user_location=" + userLat + "," + userLong + "&skip=0&limit=5&user_key=9e72f5f3689906e7d41eb04c90ac91a3";
+                        console.log(queryURL);
+                        console.log(userLat);
+                        console.log(userLong);
+                    }
+      
 
                 $.ajax({
                     url: queryURL,
@@ -472,12 +526,10 @@ $(document).ready(function(){
                             cardTitle.append(practicesHTML);
                             cardRating.append(ratingsHTML);
                             collapseExample.append(insurancesBody);
-                            insurancesBody.append(insuranceHTML);
-
-
-
+                            insurancesBody.append(insuranceHTML);   
 
                         }
+                        
         
                     });
             }
