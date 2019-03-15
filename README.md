@@ -7,6 +7,9 @@
 
 <img src="./images/W3Me.gif">
 
+### Live Project:
+[Here](https://sfattal.github.io/W3Me/)
+
 ### Team:
 - Amy Oconnor 
 - Adora Okogeri
